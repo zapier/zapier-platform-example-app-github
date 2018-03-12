@@ -46,7 +46,8 @@ describe('issue trigger', () => {
     };
     appTester(App.creates.issue.operation.perform, bundle)
       .then((response) => {
-
+        should.exist(response.title);
+        should.exist(response.body);
         done();
       })
       .catch(done);
