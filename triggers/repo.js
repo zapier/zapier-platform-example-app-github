@@ -15,7 +15,7 @@ module.exports = {
   display: {
     label: 'Get Repo',
     hidden: true,
-    description: 'The only purpose of this trigger is to populate the dropdown list of repos in the UI, thus, it\'s hidden.'
+    description: 'The only purpose of this trigger is to populate the dropdown list of repos in the UI, thus, it is hidden.'
   },
 
   operation: {
