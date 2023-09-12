@@ -1,4 +1,4 @@
-/* globals describe, it, expect, beforeAll */
+/* globals describe, it, expect, beforeAll, beforeEach, afterAll */
 
 const zapier = require('zapier-platform-core');
 const nock = require('nock');
@@ -27,6 +27,10 @@ describe('oauth2 app', () => {
         `Before running the tests, make sure CLIENT_ID and CLIENT_SECRET are available in the environment.`
       );
     }
+  });
+
+  afterEach(() => {
+    nock.cleanAll();
   });
 
   it('generates an authorize URL', async () => {
@@ -60,10 +64,14 @@ describe('getAccessToken', () => {
     nock('https://github.com/login/oauth')
       .post('/access_token')
       .reply(200, { access_token: 'someAccessToken' });
-    result = await appTester(App.authentication.oauth2Config.getAccessToken);
   });
 
-  it('returns the expected tokens', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
+  it('returns the expected tokens', async () => {
+    const result = await appTester(App.authentication.oauth2Config.getAccessToken);
     expect(result.access_token).toBe('someAccessToken');
   });
 });
@@ -90,14 +98,14 @@ describe('testAuth', () => {
           login: 'myLogin'
         }
       });
-    result = await appTester(App.authentication.test, bundle);
   });
 
-  it('returns the expected info', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
+  it('returns the expected info', async () => {
+    const result = await appTester(App.authentication.test, bundle);
     expect(result.data.json.login).toBe('myLogin');
   });
-});
-
-afterAll(() => {
-  nock.cleanAll();
 });
